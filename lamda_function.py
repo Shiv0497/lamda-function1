@@ -1,6 +1,7 @@
 import json
 from passlib.hash import pbkdf2_sha256
 
+
 def lambda_handler(event, context):
     # Sample input from event
     try:
@@ -26,6 +27,10 @@ def lambda_handler(event, context):
         }
 
     except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps(f"Error: {str(e)}")
+        }
         return {
             'statusCode': 500,
             'body': json.dumps(f"Error: {str(e)}")
