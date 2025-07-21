@@ -22,7 +22,7 @@ phases:
     commands:
       - echo "Post-build phase"
       - echo "Deploying SAM application..."
-      - sam deploy --template-file packaged.yaml --stack-name gbhelloworldstack --capabilities CAPABILITY_IAM
+      - sam deploy --template-file packaged.yaml --stack-name CustomDomainLamdaFunct --capabilities CAPABILITY_IAM
       - echo "SAM deploy completed successfully."
 artifacts:
   files:
