@@ -1,0 +1,29 @@
+phases:
+  install:
+    runtime-versions:
+      python: 3.13
+    commands:
+      - pip install aws-sam-cli
+  pre_build:
+    commands:
+      - echo "Pre-build phase"
+      - echo "Validating SAM template..."
+      - sam validate
+      - echo "Starting SAM build..."
+      - sam build
+      - echo "SAM build completed successfully."
+  build:
+    commands:
+      - echo "Build phase"
+      - echo "Packaging SAM application..."
+      - sam package --s3-bucket contactsartifacts --template-file template.yaml --output-template-file packaged.yaml
+      - echo "SAM package completed successfully."
+  post_build:
+    commands:
+      - echo "Post-build phase"
+      - echo "Deploying SAM application..."
+      - sam deploy --template-file packaged.yaml --stack-name CustomDomainLamdaFunct --capabilities CAPABILITY_IAM
+      - echo "SAM deploy completed successfully."
+artifacts:
+  files:
+    - packaged.yaml

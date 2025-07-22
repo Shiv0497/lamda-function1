@@ -1,29 +1,20 @@
+version: 0.2
 phases:
   install:
     runtime-versions:
       python: 3.13
     commands:
-      - pip install aws-sam-cli
-  pre_build:
-    commands:
-      - echo "Pre-build phase"
-      - echo "Validating SAM template..."
-      - sam validate
-      - echo "Starting SAM build..."
-      - sam build
-      - echo "SAM build completed successfully."
+      - echo "Installing dependencies..."
+      - pip install -r requirements.txt -t lib
   build:
     commands:
-      - echo "Build phase"
-      - echo "Packaging SAM application..."
-      - sam package --s3-bucket contactsartifacts --template-file template.yaml --output-template-file packaged.yaml
-      - echo "SAM package completed successfully."
+      - echo "Zipping deployment package..."
+      - cd lib
+      - zip -r9 ../deployment_package.zip .
+      - cd ..
+      - zip -g deployment_package.zip lambda_function.py
   post_build:
     commands:
-      - echo "Post-build phase"
-      - echo "Deploying SAM application..."
-      - sam deploy --template-file packaged.yaml --stack-name CustomDomainLamdaFunct --capabilities CAPABILITY_IAM
-      - echo "SAM deploy completed successfully."
-artifacts:
-  files:
-    - packaged.yaml
+      - echo "Updating lambda Function..."
+      - aws lambda update-function-code --function-name CustomDomainLamdaFunct --zip-file fileb://deployment_package.zip
+      - echo "DONE!!"
