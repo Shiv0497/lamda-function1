@@ -12,7 +12,7 @@ def lambda_handler(event, context):
         if not password:
             return {
                 'statusCode': 400,
-                'body': json.dumps("Missing 'password' in request body 5:50PM.")
+                'body': json.dumps("Missing 'password' in request body 5:52PM.")
             }
 
         # Handle password hashing
