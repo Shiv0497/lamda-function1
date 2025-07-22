@@ -6,15 +6,28 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - pip install -r requirements.txt -t lib
+
   build:
     commands:
-      - echo "Zipping deployment package..."
+      - echo "Preparing deployment package..."
+      # Ensure 'lib' directory exists for dependencies
+      - mkdir -p lib
+      # Copy your lambda handler file into the 'lib' directory
+      # IMPORTANT: Adjust 'lambda_function.py' path if it's in a subdirectory
+      # For example, if your handler is in 'src/my_handler.py', use:
+      # - cp src/my_handler.py lib/lambda_function.py
+      - cp lambda_function.py lib/
+
+      # Change to the 'lib' directory
       - cd lib
+      # Zip all contents of 'lib' (which now includes lambda_function.py and dependencies)
+      # The '..' ensures the zip file is created one level up (in the project root)
       - zip -r9 ../deployment_package.zip .
-      - cd ..
-      - zip -g deployment_package.zip lambda_function.py
+      # No need for a second 'cd ..' or 'zip -g' command as everything is now in the zip
+
   post_build:
     commands:
       - echo "Updating lambda Function..."
+      # Use the deployment_package.zip created in the build phase
       - aws lambda update-function-code --function-name CustomDomainLamdaFunct --zip-file fileb://deployment_package.zip
       - echo "DONE!!"
