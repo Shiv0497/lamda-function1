@@ -18,10 +18,14 @@ phases:
       - pwd
       - echo "Files in current directory:"
       - ls -la
-      - zip -g deployment_package.zip lambda_function.py
+      - zip -g deployment_package.zip *.py *.html
+
 
   post_build:
     commands:
       - echo "Updating lambda Function..."
       - aws lambda update-function-code --function-name CustomDomainLamdaFunct --zip-file fileb://deployment_package.zip
       - echo "DONE!!"
+
+#  - zip -g deployment_package.zip lambda_function.py
+     
