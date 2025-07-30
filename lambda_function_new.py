@@ -1,6 +1,29 @@
 
 QUIKLRN_REDIRECT = "https://awsdev.quiklrn.com"  # Global redirect holder
 
+def redirect_to(url):
+    try:
+        loginurl = url
+
+        # 1. Read the HTML template file
+        with open("redirect_to.html", "r") as f:
+            html_template = f.read()
+
+        # 2. Replace the placeholder in the HTML with the actual loginurl
+        # Ensure the placeholder in redirect_to.html matches exactly: '{{LOGIN_URL}}'
+        html_content = html_template.replace("{{LOGIN_URL}}", loginurl)
+
+        # 3. Return the modified HTML content with the correct Content-Type header
+        return respond(200, html_content, { "Content-Type": "text/html" })
+
+    except FileNotFoundError:
+        # Handle the case where redirect_to.html is not found in the deployment package
+        return respond(500, json.dumps({ "message": "redirect_to.html not found in Lambda deployment." }), { "Content-Type": "application/json" })
+    except Exception as e:
+        # Catch any other unexpected errors during file reading or processing
+        return respond(500, json.dumps({ "message": f"An unexpected error occurred: {str(e)}" }), { "Content-Type": "application/json" })
+    
+
 def proxy_fetch(url):
     import urllib.request
     try:
@@ -46,7 +69,7 @@ from http.cookies import SimpleCookie
 
 
 import os
-import bcrypt
+# import bcrypt
 from boto3.dynamodb.conditions import Key
 # from passlib.hash import pbkdf2_sha256
 # import hashlib
@@ -65,11 +88,9 @@ def verify_password(password, hashed):
     return pwd_hash.hex() == hash_hex
 
 def dynamodb_login(email,password):
-    import bcrypt
     res = table.get_item(Key={ "useremail": email })
     user = res.get("Item")
-    if bcrypt.checkpw(password, user["password"]):
-    # if user and user["password"] == password:
+    if user and user["password"] == password:
         return respond(200, json.dumps({
             "message": "User Logged In Successfull!",
             "response_body": user,
@@ -91,19 +112,7 @@ def do_GET(self):
 
         self.wfile.write(b'Cookie set successfully.')
 
-def proxy_login( email, password, platform, provider):  
-    
-    # return respond(200, json.dumps({
-    #             "message": "User Logged In Successful!",
-    #             "redirect": "https://awsdev.quiklrn.com/login.php",
-    #             "status" : 200
-    #         }))
-
-    with open("redirect_to.html", "r") as f:
-        html = f.read()
-        return respond(200, html, { "Content-Type": "text/html" }) 
-        return respond(200, json.dumps({'html':html})) 
-    
+def proxy_login( email, password, platform, provider):   
     base_url = "https://awsdev.quiklrn.com/user/login.php"
     params = {
         "platform": platform,
@@ -179,39 +188,24 @@ def proxy_login( email, password, platform, provider):
         if REDIRECTION == 1:
             if "user_id" in data:
                 global QUIKLRN_REDIRECT
-                QUIKLRN_REDIRECT = f"https://awsdev.quiklrn.com/?rememberme={cookies.get('rememberme')}"
-                return respond(200, json.dumps({
-                    "redirect_path": "/quiklrn",
-                    "status": 200
-                }))
+        QUIKLRN_REDIRECT = f"https://awsdev.quiklrn.com/?rememberme={cookies.get('rememberme')}"
+        return respond(200, json.dumps({
+            "redirect_path": "/quiklrn",
+            "status": 200
+        }))
 
         if REDIRECTION == 3:
-            # return respond(500, json.dumps({ "message": "Invalid JSON from login server" }))
-            with open("redirect_to.html", "r") as f:
-                html = f.read()
-                return respond(200, html, { "Content-Type": "text/html" })
-
-            return {
-                "statusCode": 302,
-                "headers": {
-                    "Location": "https://awsdev.quiklrn.com/login.php"
-                },
-                "body": ""
-            }
-
-            
             if "user_id" in data:
-                return respond(200, json.dumps({
-                    "message": "User Logged In Successful!",
-                    "response_body": data,
-                    "email": email,
-                    "status" : 200,
-                    "rememberme": cookies.get("rememberme"),
-                    # "redirect":f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https://awsdev.quiklrn.com/user/cloud.php?method=download_public&cloud_repository_id=470&auth_code={cookies.get("rememberme")}"
-                    # "redirect": f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth_code={cookies.get("rememberme")}"
-                    # "redirect" : f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https://awsdev.quiklrn.com/user/cloud.php?method=download_public&cloud_repository_id=470&auth=c85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get("rememberme")}"
-                        "redirect" : f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth%3Dc85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get("rememberme")}"
-                }))
+                url = f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth%3Dc85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get("rememberme")}"
+                # return respond(200, json.dumps({
+                #     "message": "User Logged In Successful!",
+                #     "response_body": data,
+                #     "email": email,
+                #     "status" : 200,
+                #     "rememberme": cookies.get("rememberme"),
+                #     "redirect" : f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth%3Dc85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get("rememberme")}"
+                # }))
+                redirect_to(url)
         return respond(200, json.dumps({
             "message": "User Logged In Failed!",
             "response_body": data,
@@ -260,7 +254,7 @@ def respond(status, body, headers=None):
     }
 
 def lambda_handler(event, context):
-        
+    
     method = event.get("requestContext", {}).get("http", {}).get("method", "")
     path = event.get("rawPath", "/")
 
@@ -306,6 +300,32 @@ def lambda_handler(event, context):
             if loginType == 1:
                 return dynamodb_login(useremail, password)
             if loginType == 2:
+                
+
+                return {
+                    "statusCode": 302,
+                    "headers": {
+                        "Location": "https://q5mf4azlxviffj7nxrsoib3oha0yeacv.lambda-url.ap-south-1.on.aws/quiklrn",  # or full URL if needed
+                        "Content-Type": "text/html"
+                    },
+                    "body": """
+                    <html>
+                        <head>
+                            <title>Redirecting...</title>
+                            <meta http-equiv="refresh" content="0;url=/quiklrn" />
+                        </head>
+                        <body>
+                            <p>Redirecting to <a href="/quiklrn">/quiklrn</a>...</p>
+                        </body>
+                    </html>
+                    """
+                }
+
+
+
+
+
+
                 return proxy_login(useremail, password, "App", "Email")
                 
             # res = table.get_item(Key={ "useremail": useremail })
@@ -353,22 +373,3 @@ def lambda_handler(event, context):
             except Exception as e:
                 return respond(500, json.dumps({ "message": str(e) }))
     return respond(404, json.dumps({ "message": "Not found" }))
-
-
-
-import json
-from lambda_function import lambda_handler
-
-# Example event for POST /login
-event = {
-    "requestContext": {"http": {"method": "POST"}},
-    "rawPath": "/login",
-    "body": json.dumps({
-        "useremail": "testcollege1@quiklrn.com",
-        "password": "password"
-    })
-}
-
-result = lambda_handler(event, None)
-print(result)
-
