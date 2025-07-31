@@ -1,6 +1,3 @@
-LOGIN_TYPE = 2
-
-REDIRECTION = 3       
 
 MOODLE_PROTOCOL = "https://"
 MOODLE_URL = "awslmsdev2.quiklrn.com/lmsdev2"

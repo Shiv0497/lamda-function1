@@ -36,7 +36,7 @@ from config import (
     WEBSITE_URL
 )
 
-dynamodb = boto3.resource('dynamodb')
+dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')  # Change to your AWS region
 table = dynamodb.Table('Login_table')
 
 import urllib.parse
@@ -67,7 +67,12 @@ def verify_password(password, hashed):
 def dynamodb_login(email,password):
     import bcrypt
     res = table.get_item(Key={ "useremail": email })
+    print("DynamoDB login attempt for email:", res)  # Debugging line to show the email being used
+    exit(0)
+    
     user = res.get("Item")
+    print("User fetched from DynamoDB:", user)  # Debugging line to show fetched user
+    exit(0)
     if bcrypt.checkpw(password, user["password"]):
     # if user and user["password"] == password:
         return respond(200, json.dumps({
@@ -210,7 +215,7 @@ def proxy_login( email, password, platform, provider):
                     # "redirect":f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https://awsdev.quiklrn.com/user/cloud.php?method=download_public&cloud_repository_id=470&auth_code={cookies.get("rememberme")}"
                     # "redirect": f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth_code={cookies.get("rememberme")}"
                     # "redirect" : f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https://awsdev.quiklrn.com/user/cloud.php?method=download_public&cloud_repository_id=470&auth=c85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get("rememberme")}"
-                        "redirect" : f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth%3Dc85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get("rememberme")}"
+                        "redirect" : f"https://enrollment-dev.quiklrn.com/quiz_player.php?qquiz_url=https%3A%2F%2Fawsdev.quiklrn.com%2Fuser%2Fcloud.php%3Fmethod%3Ddownload_public%26cloud_repository_id%3D470%26auth%3Dc85a3762c06ebd03cf247d18403eb3ea&auth_code={cookies.get('rememberme')}"
                 }))
         return respond(200, json.dumps({
             "message": "User Logged In Failed!",
@@ -301,6 +306,7 @@ def lambda_handler(event, context):
             loginType = config.LOGIN_TYPE
             # return respond(200, json.dumps({ "success": loginType, "message": "User registered successfully" }))
             # return respond(200, json.dumps({ "success": loginType== 2, "message": "User registered successfully" }))
+           
             if not useremail or not password:
                 return respond(400, json.dumps({ "message": "Missing credentials" }))
             if loginType == 1:
