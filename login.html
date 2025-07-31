@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Quiklrn">
+	<meta name="author" content="Madhura">
+	<meta name="google-signin-client_id" content="183254844218-6rp4oomkigo8pjn89vh0p73dv8l9et6j.apps.googleusercontent.com">
+	<title>Quiklrn</title>
+	<link rel="icon" href="../assets/img/quiklrn.png" type="image/ico" sizes="16x16">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css" type="text/css">
+	<link rel="stylesheet" href="https://quiklrn.com/assets/css/creative.css" type="text/css">
+	<link rel="stylesheet" href="https://quiklrn.com/assets/css/quiklrn.css" type="text/css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.min.css" />
+	<style>
+		.row.fix {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+
+
+		.btn-block:hover {
+			background-color: #9f9b9b;
+			color: black;
+		}
+
+
+		.checkbox-label {
+			margin-left: 10px;
+			font-weight: normal;
+			/* Change the font weight to normal */
+		}
+
+		.checkbox-link {
+			color: #7A319F;
+			text-decoration: underline;
+		}
+
+		.checkbox-container {
+			display: flex;
+			align-items: flex-start;
+		}
+
+		.checkbox-input {
+			margin: 0;
+		}
+
+		.text-right {
+			color: white;
+		}
+
+		.helpblock-link {
+			color: #212121;
+		}
+
+		.bottom-div {
+			position: fixed;
+			bottom: 0;
+			height: 6%;
+			width: 100%;
+			background-color: #BDBDBD;
+			padding: 10px;
+
+			display: flex;
+			/* Use flexbox for positioning */
+			align-items: center;
+			/* Align items vertically */
+			justify-content: center;
+		}
+		.bottom-div-reg {
+			height: 6%;
+			padding: 10px;
+			display: flex;
+			/* Use flexbox for positioning */
+			align-items: center;
+			/* Align items vertically */
+			justify-content: center;
+		}
+
+		.bottom-div-login {
+			position: fixed;
+			bottom: 0;
+			height: 6%;
+			width: 100%;
+			background-color: #BDBDBD;
+			padding: 10px;
+			align-items: center;
+			display: flex;
+			/* Use flexbox for positioning */
+			align-items: center;
+			/* Align items vertically */
+			justify-content: center;
+		}
+
+		.h5:nth-child(2) {
+			margin-left: 20px;
+			/* Add spacing between the h5 elements */
+		}
+
+		.register {
+			margin-left: 10px;
+			font-weight: bold;
+			color: #7A319F;
+		}
+
+		.login {
+			margin-left: 10px;
+			font-weight: bold;
+			color: #7A319F;
+		}
+
+		a:hover {
+			color: #9f9b9b;
+			/* Color to apply when hovering over a link */
+		}
+
+		#login-container .btn {
+			width: 100%;
+			/* Make the button width 100% */
+			max-width: 500px;
+			/* Set a maximum width if needed */
+			/* Add any additional styles as needed */
+		}
+	</style>
+	<link rel="stylesheet" href="https://quiklrn.com/assets/css/mystyle_app.css">
+
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+</head>
+
+<body id="page-top" style="background-color: #ddd;">
+
+	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #7A319F;">
+					<h5 class="modal-title" id="messageModalLabel" style="color: #ffffff">Alert</h5>
+					</div>
+				<div class="modal-body" id="messageModalBody">
+					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color: #7A319F;">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="panel center-block" style="width:70%; max-width:100%; margin-top:60px; background-color: #ddd;">
+			<div class="panel-body">
+
+				<!-- <img src="../assets/img/quiklrn.png" style="width:90px; height:90px; max-width:100%;margin-left:20px;"> -->
+				<h3 style="margin-left:20px;" id="logintitle">Hey there!</h3>
+				<h3 style="margin-left:20px;" id="logintitle">Welcome back!</h3>
+				<h3 style="margin-left:20px; display: none;" id="signuptitle">Help us create content</h3>
+				<h3 style="margin-left:20px; display: none;" id="signuptitle">specially for you!</h3>
+
+				<center id="loginlabel">
+					<h5>login with your e-mail</h5>
+				</center>
+				<center id="signuplabel" style="display:none;">
+					<h5>signup using your e-mail</h5>
+				</center>
+
+				<form class="form" id="loginForm" role="form" accept-charset="UTF-8" id="login-nav">
+					<div class="form-group">
+						<label class="sr-only" for="email">Email address</label>
+						<input type="text" class="form-control" id="loginEmail" name="loginEmail" placeholder="Email address" required>
+					</div>
+					<div class="form-group">
+						<label class="sr-only" for="password" id="passwordLabel">Password</label>
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+						<input type="hidden" id="loginType" name="loginType" readonly>
+						<div class="checkbox-container" style="margin-top: 10px;">
+							<div>
+								<input class="check" type="checkbox" id="acceptPolicy">
+							</div>
+							<div>
+								<label class="checkbox-label" for="acceptPolicy" class="checkbox-input" style="">
+									*By signing in you are accepting to our <br> <a class="checkbox-link" href="https://blog.quiklrn.com/terms-of-service/?platform=App">Terms and Services</a> and <a class="checkbox-link" href="https://blog.quiklrn.com/privacy-policy/?platform=App">Privacy Policy</a>.
+								</label>
+							</div>
+							<div style="margin-left:340px;" id="forgotreset">
+								<div class="help-block text-right"><a class="helpblock-link" data-toggle="modal" data-target="#myModal" style="cursor: pointer;">Forgot password?</a></div>
+								</div>
+
+						</div>
+
+
+					</div>
+					<center>
+						<div class="form-group" id="loginButton" style="width: 40%; display: flex">
+							<!-- <button class="btn btn-primary btn-block" id="loginSubmitButton" style="width:100%;color:#000;background-color:#7A319F;color:white;margin-top:12px;font-weight: normal;font-size: 12px;" type="button" onclick="handleLogin()">Login</button> -->
+							<button class="btn btn-primary btn-block" style="width:100%;color:#000;background-color:#7A319F;color:white;margin-top:12px;font-weight: normal;font-size: 12px;"  type="submit">LOGIN</button>
+						</div>
+						<div class="form-group" id="signUpButton" style="width: 40%; display: none">
+							<button class="btn btn-primary btn-block" id="signUpSubmitButton" style="width:100%;color:#000;background-color:#7A319F;color:white;margin-top:12px;font-weight: normal;font-size: 12px;" type="button" onclick="handleRegistration()">Send Confirmation Link</button>
+						</div>
+					</center>
+				</form>
+
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Send recovery link</h4>
+							</div>
+							<form class="form" role="form" accept-charset="UTF-8" id="forgetpass-nav">
+								<div class="modal-body">
+									<input type="email" class="form-control" id="emailInput" name="email" placeholder="Enter your email id" required>
+								</div>
+								<div class="modal-footer">
+									<button type="button" id="btnrecoverylink" class="btn btn-default" data-dismiss="modal">Send recovery link</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</form>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="modal fade" id="myModalRecoverDeviceSlots" role="dialog">
+					<div class="modal-dialog">
+
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Recover Your Device Slots</h4>
+							</div>
+							<form class="form" role="form" accept-charset="UTF-8" id="forgetpass">
+								<div class="modal-body">
+									<input type="email" class="form-control" id="resetdeviceemailInput" name="email" placeholder="Enter your email id" required>
+								</div>
+								<div class="modal-footer">
+									<button type="button" id="btnResetDeviceSlots" class="btn btn-default" data-dismiss="modal">Recover Slots</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</form>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="bottom-div-reg" id="bottomRegister">
+				<h4><i>Don't have an account?</i></h4>
+					<h4 class="register" style="cursor: pointer;" onclick="showRegistrationForm()">Register</h4>
+				</div>
+				<div class="bottom-div-reg" id="bottomLogin" style="display: none; justify-content:center;">
+					<h4><i>Have a account?</i></h4>
+					<h4 class="login" style="cursor: pointer; display: inline;" onclick="showLoginForm()">Login</h4>
+				</div>
+
+				</div>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+	<script type="text/javascript">
+		// Get URL parameters
+		const urlParams = new URLSearchParams(window.location.search);
+		// Get loginType from URL
+		const loginType = urlParams.get("loginType");
+		// Set it inside the input box
+		if (loginType) {
+			document.getElementById("loginType").value = loginType;
+		}
+		
+		// Handle login
+		document.getElementById('loginForm').onsubmit = async function (e) {
+		e.preventDefault();
+		const useremail = document.getElementById('loginEmail').value;
+		const password = document.getElementById('password').value;
+		// const loginType = document.getElementById('loginType').value;\
+		
+		const response = await fetch("/login", {
+			method: "POST",
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ useremail, password, loginType})
+		});
+
+      	const data = await response.json();
+		console.log("data",data)
+
+		// ✅ Set the cookie before redirecting
+		if (data.rememberme) {
+			// Set cookie in browser (expires in 30 days)
+			document.cookie = `rememberme=${data.rememberme}; path=/; max-age=${30 * 24 * 60 * 60}`;
+		}
+      if (data.redirect) {
+        // window.location.href = data.redirect+"?rememberme="+data.rememberme;
+		window.location.href = data.redirect;
+    
+      } else {
+        alert(data.message || "Invalid login");
+      }
+    };
+
+    const url = new URL(window.location.href); 
+		const courseId = url.searchParams.get("course_id");
+		const bookId = url.searchParams.get("book_id");
+
+		console.log("Course ID:", courseId);
+		console.log("Book ID:", bookId);
+		function showRegistrationForm() {
+			document.getElementById("password").style.display = "none"; // Hide password field
+			document.getElementById("passwordLabel").style.display = "none"; // Hide password label
+			document.getElementById("forgotreset").style.display = "none"; // Hide forgot and reset
+			document.getElementById("bottomRegister").style.display = "none"; // bottom register
+			document.getElementById("bottomLogin").style.display = "flex"; // bottom login
+			document.getElementById("signUpButton").style.display = "flex"; // bottom login
+			document.getElementById("loginButton").style.display = "none"; // bottom login
+			document.getElementById("loginlabel").style.display = "none"; // bottom login
+			document.getElementById("signuplabel").style.display = "block"; // bottom login
+			document.getElementById("signuptitle").style.display = "block"; // bottom login
+			document.getElementById("logintitle").style.display = "none"; // bottom login
+		}
+
+		function showLoginForm() {
+			document.getElementById("password").style.display = "block"; // Hide password field
+			document.getElementById("passwordLabel").style.display = "block"; // Hide password label
+			document.getElementById("forgotreset").style.display = "block"; // Hide forgot and reset
+			document.getElementById("bottomRegister").style.display = "flex"; // bottom register
+			document.getElementById("bottomLogin").style.display = "none"; // bottom login
+			document.getElementById("signUpButton").style.display = "none"; // bottom login
+			document.getElementById("loginButton").style.display = "flex"; // bottom login
+			document.getElementById("loginlabel").style.display = "block"; // bottom login
+			document.getElementById("signuplabel").style.display = "none"; // bottom login
+			document.getElementById("signuptitle").style.display = "none"; // bottom login
+			document.getElementById("logintitle").style.display = "block"; // bottom login
+		}
+
+		var WEBAPP_URL = "";
+		var auth = "";
+
+		$('#modal-dialog').on('show', function() {
+			var link = $(this).data('link'),
+				confirmBtn = $(this).find('.confirm');
+		})
+
+
+
+		$(document).ready(function() {
+			// get_user_id(function(resp) {
+			// 	if (resp) {
+			// 	if(!courseId){
+			// 			window.location.href = "" + WEBAPP_URL + "/home.php";
+			// 		}
+			// 		else{
+			// 			window.location.href = WEBAPP_URL + "/home.php?course_id=" + courseId + "&book_id=" + bookId;
+			// 		}
+			// 	}
+			// });
+		});
+
+
+
+		$('#btnYes').click(function() {
+
+			// handle form processing here
+			
+			alert('submit form');
+			$('form').submit();
+
+		});
+
+
+		var policyCheck = document.getElementById("acceptPolicy");
+		var website_url = "";
+		var internal_api_url = "";
+
+		var query = window.location.search;
+		var paramters = new URLSearchParams(query);
+		var auth_code = paramters.get('auth_code');
+		console.log('websiteUrl', website_url);
+
+		/* ------------------------------- email login --------------------------- */
+		/*$("form#login-nav").submit(function(e) {
+			if (!acceptPolicy.checked) {
+				alert("Please accept the Terms of Service and Privacy Policy of Quiklrn App");
+			} else {
+				try {
+					e.preventDefault();
+					e.stopPropagation();
+					var email = document.getElementById("email").value;
+					var password = document.getElementById("password").value;
+					var postdata = {};
+					postdata.platform = "App";
+					postdata.email = email;
+					postdata.password = password;
+					postdata.provider = "Email";
+
+					login(postdata);
+				} catch (e) {
+
+				}
+			}
+
+
+		});
+*/
+
+		var userEmail;
+		var userId;
+		var userType;
+
+		function get_user_id(callback) {
+			$.ajax({
+				type: "GET",
+				url: `${internal_api_url}?method=auth_function`,
+				data: {
+					method_name: 'getUserIdByAuthCode',
+					auth: auth_code
+				},
+				success: function(data) {
+
+					let auth = ((data.data).auth);
+					if (!(auth.length)) {
+						return true;
+					}
+					let dta = {
+						user_id: auth[0][0].user_id,
+						user_type: auth[0][0].user_type,
+						user_email: auth[0][0].email
+					}
+					localStorage.setItem("ReqData", JSON.stringify(dta));
+					var localData = JSON.parse(localStorage.getItem("ReqData"));
+					userEmail = localData.user_email;
+					userId = localData.user_id;
+					userType = localData.user_type;
+					if (callback) {
+						window.auth = auth_code;
+						return callback(true);
+					} else {
+						alert('callback failed in get_user_id method! ');
+					}
+					return false;
+				},
+				error: function(xhr, status, error) {
+					console.error(xhr);
+				}
+			});
+		}
+		/*
+				function login(postData) {
+
+					if (postData.provider === "Email") {
+						var postdata = {
+							platform: postData.platform,
+							email: postData.email,
+							password: postData.password,
+							provider: postData.provider
+						};
+						//console.log('postdata', postdata);
+
+						try {
+							$.ajax({
+								type: "GET",
+								url: `${internal_api_url}?method=login`,
+								data: postdata,
+								contentType: 'application/json',
+								success: function(res, statusTitle, xhr) {
+									document.getElementById("login-nav").reset();
+									console.log("response : ", res)
+									var response = res.data;
+									var jsonMatch = response.match(/\{[^}]+\}/);
+
+									if (jsonMatch) {
+										var jsonResponse = JSON.parse(jsonMatch[0]);
+										// Access the user_id property
+										var userId = jsonResponse.user_id;
+										console.log("User ID:", userId);
+										if (jsonResponse.hasOwnProperty('status')) {
+											var message = jsonResponse.message;
+											// message = message.replace(/<br>/g, '\n');
+											// message = message.replace(/&nbsp;/g, ' ');
+											alert(message);
+										} else if (userId != null || userId != "") {
+											if (xhr.status === 200) {
+												window.location.href = "home.php";
+												//	alert("home page");
+											} else {
+												console.log(res);
+												alert("response error");
+											}
+										} else if(jsonResponse.status === 401){
+											alert(jsonResponse.message);
+										}
+
+									} else {
+										console.error("No valid JSON found in the response.");
+									}
+
+								}
+							});
+						} catch (e) {}
+
+					}
+
+				}
+					*/
+		function login(postData, courseId, bookId) {
+
+			if (postData.provider === "Email") {
+				var postdata = {
+					platform: postData.platform,
+					email: postData.email,
+					password: postData.password,
+					provider: postData.provider
+				};
+				//console.log('postdata', postdata);
+
+				try {
+					$.ajax({
+						type: "GET",
+						url: `${internal_api_url}?method=login`,
+						data: postdata,
+						contentType: 'application/json',
+						success: function(res, statusTitle, xhr) {
+							document.getElementById("login-nav").reset();
+							console.log("response : ", res)
+							var response = res.data;
+
+							// Access the user_id property
+							var userId = response.user_id;
+							console.log("User ID:", userId);
+							if (response.hasOwnProperty('status')) {
+								var message = response.message;
+								message = message.replace(/<br>/g, '\n');
+								message = message.replace(/&nbsp;/g, ' ');
+								// alert(message);
+								document.getElementById('messageModalBody').innerText = "" + message;
+								// Show the modal
+								$('#messageModal').modal('show');
+							} else if (userId != null || userId != "") {
+								if (xhr.status === 200) {
+										if(!courseId){
+										window.location.href = "home.php";
+										}
+										else{
+											// window.location.href = `home.php?course_id=${courseId}`;
+											window.location.href = `home.php?course_id=${courseId}&book_id=${bookId}`;
+										}
+									//	alert("home page");
+								} else {
+									console.log(res);
+									alert("response error");
+								}
+							} else if (response.status === 401) {
+								// alert(response.message);
+								document.getElementById('messageModalBody').innerText = "" + response.message;
+								// Show the modal
+								$('#messageModal').modal('show');
+							}
+
+						}
+					});
+				} catch (e) {}
+
+			}
+
+		}
+
+		/* --------- forget password ----------- */
+		function geek() {
+
+			let doc = prompt("Please enter email id",
+				"");
+
+			if (doc != null) {
+				alert("welcome");
+			}
+		}
+
+		btnrecoverylink.addEventListener("click", function() {
+			var email = document.getElementById("emailInput").value;
+			var platform = "App"
+
+			// Check if the email is not empty
+			if (email.trim() !== "" && email.indexOf('@') !== -1) {
+				try {
+					$.ajax({
+						type: "POST",
+						url: `${internal_api_url}?method=forgetpassword&platform=${platform}&email=${email}`,
+						data: JSON.stringify({
+							'platform': platform,
+							'email': email
+						}), // Stringify the data
+						contentType: 'application/json', // Set the content type to JSON
+						success: function(res, statusTitle, xhr) {
+							document.getElementById("forgetpass-nav").reset();
+							// console.log("response : " + res.data);
+							//alert(res.data);
+							document.getElementById('messageModalBody').innerText = "" + res.data;
+							// Show the modal
+							$('#messageModal').modal('show');
+							if (xhr.status === 200) {
+								//  alert("success");
+							} else {
+								console.log(res);
+								alert("response error");
+							}
+						}
+					});
+				} catch (e) {}
+
+			} else {
+				//alert("please enter valid email id");
+				document.getElementById('messageModalBody').innerText = "Please enter valid email id";
+				// Show the modal
+				$('#messageModal').modal('show');
+			}
+		});
+
+
+		btnResetDeviceSlots.addEventListener("click", function() {
+			var email = document.getElementById("resetdeviceemailInput").value;
+			var methodName = 'device_clear_request';
+			// Check if the email is not empty
+			if (email.trim() !== "" && email.indexOf('@') !== -1) {
+
+				try {
+					$.ajax({
+						type: "POST",
+						url: `${internal_api_url}?method=deviceclearrequest`,
+						data: JSON.stringify({
+							'method': methodName,
+							'email': email
+						}), // Stringify the data
+						contentType: 'application/json', // Set the content type to JSON
+						success: function(res, statusTitle, xhr) {
+							document.getElementById("forgetpass").reset();
+							var propertyValue = JSON.parse(res.data);
+							//alert(propertyValue.message);
+							document.getElementById('messageModalBody').innerText = "" + propertyValue.message;
+							// Show the modal
+							$('#messageModal').modal('show');
+							if (xhr.status === 200) {
+
+							} else {
+								console.log(res);
+								alert("response error");
+							}
+						}
+					});
+				} catch (e) {}
+
+			} else {
+				//alert("please enter valid email id");
+				document.getElementById('messageModalBody').innerText = "Please enter valid email id";
+				// Show the modal
+				$('#messageModal').modal('show');
+			}
+		});
+
+		// Function to handle login API call
+		function handleLogin() {
+			if (!acceptPolicy.checked) {
+				// alert("Please accept the Terms of Service and Privacy Policy of Quiklrn App");
+				document.getElementById('messageModalBody').innerText = "Please accept the Terms of Service and Privacy Policy of Quiklrn App";
+				// Show the modal
+				$('#messageModal').modal('show');
+			} else {
+				try {
+					//	e.preventDefault();
+					//	e.stopPropagation();
+					var email = document.getElementById("email").value;
+					var password = document.getElementById("password").value;
+					var postdata = {};
+					postdata.platform = "App";
+					postdata.email = email;
+					postdata.password = password;
+					postdata.provider = "Email";
+
+					login(postdata, courseId, bookId);
+				} catch (e) {
+
+				}
+			}
+
+		}
+
+		// Function to handle registration API call
+		function handleRegistration() {
+			if (!acceptPolicy.checked) {
+				// alert("Please accept the Terms of Service and Privacy Policy of Quiklrn App");
+				document.getElementById('messageModalBody').innerText = "Please accept the Terms of Service and Privacy Policy of Quiklrn App";
+				// Show the modal
+				$('#messageModal').modal('show');
+			} else {
+				var emailId = document.getElementById("email").value;
+
+				var postdata = {
+					platform: "App",
+					email: emailId,
+				};
+
+				$.ajax({
+					type: "GET",
+					url: `${internal_api_url}?method=newUserRegistration`,
+					data: postdata,
+					contentType: 'application/json',
+					success: function(res, statusTitle, xhr) {
+						console.log("response : ", res);
+						// alert(res.data);
+						document.getElementById('messageModalBody').innerText = "" + res.data;
+						// Show the modal
+						$('#messageModal').modal('show');
+					}
+				});
+
+			}
+		}
+	</script>
+</body>
+
+</html>
